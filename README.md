@@ -17,7 +17,7 @@ An LLM agent parsing another agent's output is in a strikingly similar position 
 | "This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review." | "The tool tries to synchronize state across the configured backends. If it finds a conflict, it reads the configured strategy. If the strategy allows automatic resolution, the tool may resolve the conflict without a user. If the tool does not resolve the conflict, it reports the conflict for manual review." |
 | "An error may have occurred while processing your request due to a possible mismatch in the expected data format, which could be caused by an outdated client version." | "Your request may have failed. The cause may be a data format that does not match what the server expects. An outdated client can cause this mismatch. Check your client version." |
 
-More examples, including illustrations of the official STE rules themselves, in [`examples/before-after.md`](examples/before-after.md).
+More examples, including illustrations of the official STE rules themselves, in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md).
 
 ## What This Skill Does
 
@@ -35,15 +35,15 @@ The linter checks structural patterns only. It does not compare an original text
 
 The deterministic linter checks semicolons, a short list of soft phrasal verbs (spin up, reach out, dive into, kick off, circle back, touch base), nominalizations, marketing adjectives, passive voice, present-perfect forms (including irregular participles such as "has run"), long sentences, synonym rotation, and dangling conjunctions in supported list items. It does not check noun-cluster length (that needs part-of-speech tagging) and it does not know phrasal verbs outside its list, so "take off the panel" passes. It never flags hedges or modality.
 
-The repo's own prose does not lint clean: the rule tables quote the patterns they forbid, and some sentences run long. Lint it with `python scripts/ste-lint.py --baseline 41 SKILL.md` and read the findings as examples, not defects.
+The repo's own prose does not lint clean: the rule tables quote the patterns they forbid, and some sentences run long. Lint it with `python skills/asd-ste100-skill/scripts/ste-lint.py --baseline 41 skills/asd-ste100-skill/SKILL.md` and read the findings as examples, not defects.
 
 The dangling-conjunction rule checks list markers at the start of a line with zero to three leading spaces and ASCII spaces after the marker. It supports unordered markers `-`, `*`, and `+`, and ordered numeric markers that end in `.` or `)`, such as `1.` or `1)`. It checks indented continuation lines up to the final meaningful line. It does not parse list syntax inside blockquotes, lazy continuation, or full nested-list semantics. A standalone line with four or more leading spaces is not treated as a list marker. Within an active list item, indentation at the computed content column is treated as continuation text. Fence detection follows the linter's existing simple rule: a stripped line beginning with three backticks or three tildes toggles the fence state.
 
-The intentionally invalid examples/linter-edge-cases.md file demonstrates incomplete Markdown list items. Run python scripts/ste-lint.py examples/linter-edge-cases.md to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
+The intentionally invalid `skills/asd-ste100-skill/examples/linter-edge-cases.md` file demonstrates incomplete Markdown list items. Run `python skills/asd-ste100-skill/scripts/ste-lint.py skills/asd-ste100-skill/examples/linter-edge-cases.md` to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
 
 It does **not** reproduce ASD's official ~900-word approved dictionary. The standard is free to obtain but not free to redistribute: Issue 9 permits reproduction only with ASD's written authority, or by eight listed categories of organisation that this project does not belong to. This skill applies the underlying *principle* (plainest available word, used the same way every time) rather than checking against a fixed word list. For certified STE-compliant documentation, use the real standard.
 
-Full rule summary and citations: [`references/writing-rules.md`](references/writing-rules.md).
+Full rule summary and citations: [`skills/asd-ste100-skill/references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md).
 
 ## Installation
 
@@ -62,10 +62,11 @@ Update later with `npx skills update`.
 ### Clone
 
 ```bash
-git clone https://github.com/danyuchn/asd-ste100-skill ~/.claude/skills/asd-ste100
+git clone https://github.com/danyuchn/asd-ste100-skill ~/.claude/skills/asd-ste100-repo
+ln -s ~/.claude/skills/asd-ste100-repo/skills/asd-ste100-skill ~/.claude/skills/asd-ste100
 ```
 
-This clones the repo into `~/.claude/skills/`, making the skill available in every Claude Code project. Best for contributors and anyone who wants a live checkout that updates with `git pull`.
+This clones the repo and links the skill folder into `~/.claude/skills/`, making the skill available in every Claude Code project. Update later with `git -C ~/.claude/skills/asd-ste100-repo pull`.
 
 ## Usage
 
