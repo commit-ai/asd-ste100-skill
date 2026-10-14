@@ -1,0 +1,14 @@
+name: asd-ste100-skill
+version: 0.0.1
+description: ASD-STE100 Skill
+includes: auto
+targets:
+- copilot
+- claude
+dependencies:
+  apm:
+  - mattpocock/skills/skills/productivity/grill-me
+  - mattpocock/skills/skills/productivity/grilling
+  - mattpocock/skills/skills/productivity/handoff
+  - mattpocock/skills/skills/productivity/writing-for-agents
+scripts: {}
