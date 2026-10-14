@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic linter for the structural STE rules in SKILL.md.
+"""Deterministic linter for the structural STE rules in references/writing-rules.md.
 
 Checks only rules verifiable without ASD's dictionary. Deliberately never
 flags hedges or modality (may/might/could): the skill treats confidence as
