@@ -1,7 +1,8 @@
 ---
 name: asd-ste100
 description: "Review documents for ASD-STE100 compatibility, suggest fixes from supplied findings, or rewrite English that is dense or easy to misparse. Use for tool descriptions, error messages, inter-agent instructions, system prompts, and status reports where misreading has a real cost. Triggers: STE100 review, disambiguate, apply Simplified Technical English, plain-language rewrite, controlled-language rewrite, rewrite so an agent cannot misread this. Not for creative or marketing copy, or persuasive copy where voice, nuance, or persuasion is the point."
-version: 0.4.0
+metadata:
+  version: "0.4.0"
 ---
 
 # Simplified Technical English (ASD-STE100)

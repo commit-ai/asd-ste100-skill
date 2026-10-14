@@ -3,7 +3,7 @@
 This repository packages an English-rewriting skill and a deterministic Python linter.
 The skill guides an agent's rewrites. The linter checks structural patterns, not meaning preservation or certified ASD-STE100 compliance.
 
-- `skills/asd-ste100-skill/SKILL.md` owns triggers, routing, mode selection, and the rewrite workflow/output contract. Its frontmatter name is `asd-ste100`.
+- `skills/asd-ste100/SKILL.md` owns triggers, routing, mode selection, and the rewrite workflow/output contract. Its frontmatter name is `asd-ste100`.
 - `references/writing-rules.md`, within that skill directory, is the authoritative writing, fidelity, and verification policy.
 - `references/review-workflow.md` owns review and supplied-fixes execution and the report contract.
 - `examples/before-after.md` contains worked demonstrations and case-specific explanations, not general instructions.
@@ -17,25 +17,25 @@ Run these commands from the repository root with Python 3.
 Run the embedded regression suite:
 
 ```bash
-python3 skills/asd-ste100-skill/scripts/ste-lint.py --selftest
+python3 skills/asd-ste100/scripts/ste-lint.py --selftest
 ```
 
 Check one file, or supply several file paths:
 
 ```bash
-python3 skills/asd-ste100-skill/scripts/ste-lint.py path/to/document.md
+python3 skills/asd-ste100/scripts/ste-lint.py path/to/document.md
 ```
 
 Check one input through stdin with structured output:
 
 ```bash
-printf '%s\n' 'The request may have failed.' | python3 skills/asd-ste100-skill/scripts/ste-lint.py --json
+printf '%s\n' 'The request may have failed.' | python3 skills/asd-ste100/scripts/ste-lint.py --json
 ```
 
 For an isolated regression assertion, load the script with `runpy` and call `lint()`:
 
 ```bash
-python3 -c 'import runpy; m = runpy.run_path("skills/asd-ste100-skill/scripts/ste-lint.py"); findings, _ = m["lint"]("- Set the target and"); assert [(f["rule"], f["line"], f["col"]) for f in findings] == [("dangling-conjunction", 1, 1)]'
+python3 -c 'import runpy; m = runpy.run_path("skills/asd-ste100/scripts/ste-lint.py"); findings, _ = m["lint"]("- Set the target and"); assert [(f["rule"], f["line"], f["col"]) for f in findings] == [("dangling-conjunction", 1, 1)]'
 ```
 
 The self-tests are assertions inside `selftest()`. Add linter regression cases there.
@@ -43,14 +43,14 @@ The self-tests are assertions inside `selftest()`. Add linter regression cases t
 Check the skill document with the baseline documented in `README.md`:
 
 ```bash
-python3 skills/asd-ste100-skill/scripts/ste-lint.py --baseline 40 skills/asd-ste100-skill/SKILL.md
+python3 skills/asd-ste100/scripts/ste-lint.py --baseline 40 skills/asd-ste100/SKILL.md
 ```
 
 The policy reference and worked examples quote patterns they discuss. Interpret findings in context.
 `examples/linter-edge-cases.md` is intentionally invalid. The following command must exit 1 with exactly two `dangling-conjunction` findings:
 
 ```bash
-python3 skills/asd-ste100-skill/scripts/ste-lint.py --json skills/asd-ste100-skill/examples/linter-edge-cases.md
+python3 skills/asd-ste100/scripts/ste-lint.py --json skills/asd-ste100/examples/linter-edge-cases.md
 ```
 
 # Skill conventions

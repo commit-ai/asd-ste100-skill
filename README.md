@@ -21,13 +21,13 @@ The tool example retains the source's ambiguous "otherwise". The author must cla
 
 These are provisional clarity rewrites, not verified Issue 9-compliant text. The error example retains a compound form and an `-ing` verb under this skill's fidelity policy. Neither that policy nor the local Strict/STE-flavored modes are exceptions or conformance levels defined by ASD-STE100.
 
-More worked rule applications, case-specific explanations, and unresolved choices are in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md). They demonstrate the [writing policy](skills/asd-ste100-skill/references/writing-rules.md), rather than defining additional instructions.
+More worked rule applications, case-specific explanations, and unresolved choices are in [`skills/asd-ste100/examples/before-after.md`](skills/asd-ste100/examples/before-after.md). They demonstrate the [writing policy](skills/asd-ste100/references/writing-rules.md), rather than defining additional instructions.
 
 ## What This Skill Does
 
 The task router separates document review, fixes from supplied findings, and ordinary rewriting. Strict and STE-flavored remain writing policies, not task types.
 
-Each skill file has one responsibility. [`SKILL.md`](skills/asd-ste100-skill/SKILL.md) owns routing, mode selection, and the rewrite workflow/output contract. [`references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md) is the authoritative owner of language rules, shared fidelity constraints, evidence limits, and verification guidance; every task branch loads it before applying rules. [`references/review-workflow.md`](skills/asd-ste100-skill/references/review-workflow.md) owns the review and supplied-fixes workflows and report contract. The examples contain demonstrations and links to those owners.
+Each skill file has one responsibility. [`SKILL.md`](skills/asd-ste100/SKILL.md) owns routing, mode selection, and the rewrite workflow/output contract. [`references/writing-rules.md`](skills/asd-ste100/references/writing-rules.md) is the authoritative owner of language rules, shared fidelity constraints, evidence limits, and verification guidance; every task branch loads it before applying rules. [`references/review-workflow.md`](skills/asd-ste100/references/review-workflow.md) owns the review and supplied-fixes workflows and report contract. The examples contain demonstrations and links to those owners.
 
 For rewriting, the skill:
 
@@ -52,19 +52,19 @@ The review preserves meaning, selection counts, examples, approval conditions, a
 
 For suggested fixes, supplied findings define the scope. The skill preserves their statuses and assumptions, verifies quotations and locations, and explicitly corrects proven location errors without starting a new audit. It saves only requested artifacts and identifies saved outputs by exact absolute path.
 
-Each invocation ends with one result after a bounded fidelity check. The skill does not recursively invoke itself, optimize reports to a score, or start automatic follow-up reviews. Further iteration belongs to the user's AI tool. Full branch instructions: [`skills/asd-ste100-skill/references/review-workflow.md`](skills/asd-ste100-skill/references/review-workflow.md).
+Each invocation ends with one result after a bounded fidelity check. The skill does not recursively invoke itself, optimize reports to a score, or start automatic follow-up reviews. Further iteration belongs to the user's AI tool. Full branch instructions: [`skills/asd-ste100/references/review-workflow.md`](skills/asd-ste100/references/review-workflow.md).
 
 The linter checks structural patterns only. It does not compare an original text with a rewrite, verify that requirement strength stayed the same, or prove that the rewrite preserved meaning. A zero-violation result means that the configured structural checks found no problems, not that a document review is complete. A heuristic finding is a candidate, not proof. For example, noun `checks` and verb `verify` need not name the same action.
 
 The deterministic linter checks semicolons, a short list of soft phrasal verbs (spin up, reach out, dive into, kick off, circle back, touch base), nominalizations, marketing adjectives, passive voice, present-perfect forms (including irregular participles such as "has run"), long sentences, synonym rotation, and dangling conjunctions in supported list items. It does not check noun-cluster length (that needs part-of-speech tagging) and it does not know phrasal verbs outside its list, so "take off the panel" passes. It never flags hedges or modality.
 
-The policy reference and worked examples quote patterns they discuss, and some repository prose runs long. The documented baseline command for the entry point remains `python skills/asd-ste100-skill/scripts/ste-lint.py --baseline 40 skills/asd-ste100-skill/SKILL.md`. Read findings in context rather than treating every match as a defect.
+The policy reference and worked examples quote patterns they discuss, and some repository prose runs long. The documented baseline command for the entry point remains `python skills/asd-ste100/scripts/ste-lint.py --baseline 40 skills/asd-ste100/SKILL.md`. Read findings in context rather than treating every match as a defect.
 
 The dangling-conjunction rule checks list markers at the start of a line with zero to three leading spaces and ASCII spaces after the marker. It supports unordered markers `-`, `*`, and `+`, and ordered numeric markers that end in `.` or `)`, such as `1.` or `1)`. It checks indented continuation lines up to the final meaningful line. It does not parse list syntax inside blockquotes, lazy continuation, or full nested-list semantics. A standalone line with four or more leading spaces is not treated as a list marker. Within an active list item, indentation at the computed content column is treated as continuation text. Fence detection follows the linter's existing simple rule: a stripped line beginning with three backticks or three tildes toggles the fence state.
 
-The intentionally invalid `skills/asd-ste100-skill/examples/linter-edge-cases.md` file demonstrates incomplete Markdown list items. Run `python skills/asd-ste100-skill/scripts/ste-lint.py skills/asd-ste100-skill/examples/linter-edge-cases.md` to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
+The intentionally invalid `skills/asd-ste100/examples/linter-edge-cases.md` file demonstrates incomplete Markdown list items. Run `python skills/asd-ste100/scripts/ste-lint.py skills/asd-ste100/examples/linter-edge-cases.md` to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
 
-Dictionary scope and redistribution limits: [Source and Scope](skills/asd-ste100-skill/references/writing-rules.md#source-and-scope). Full rules, selected vocabulary evidence, verification guidance, and citations: [`skills/asd-ste100-skill/references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md).
+Dictionary scope and redistribution limits: [Source and Scope](skills/asd-ste100/references/writing-rules.md#source-and-scope). Full rules, selected vocabulary evidence, verification guidance, and citations: [`skills/asd-ste100/references/writing-rules.md`](skills/asd-ste100/references/writing-rules.md).
 
 ## Installation
 
@@ -84,7 +84,7 @@ Update later with `npx skills update`.
 
 ```bash
 git clone https://github.com/danyuchn/asd-ste100-skill ~/.claude/skills/asd-ste100-repo
-ln -s ~/.claude/skills/asd-ste100-repo/skills/asd-ste100-skill ~/.claude/skills/asd-ste100
+ln -s ~/.claude/skills/asd-ste100-repo/skills/asd-ste100 ~/.claude/skills/asd-ste100
 ```
 
 This clones the repo and links the skill folder into `~/.claude/skills/`, making the skill available in every Claude Code project. Update later with `git -C ~/.claude/skills/asd-ste100-repo pull`.
