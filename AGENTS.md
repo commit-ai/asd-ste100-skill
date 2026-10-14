@@ -3,8 +3,10 @@
 This repository packages an English-rewriting skill and a deterministic Python linter.
 The skill guides an agent's rewrites. The linter checks structural patterns, not meaning preservation or certified ASD-STE100 compliance.
 
-- `skills/asd-ste100-skill/SKILL.md` defines the skill's triggers, modes, rewrite process, and output contract. Its frontmatter name is `asd-ste100`.
-- `references/writing-rules.md` and `examples/before-after.md`, within that skill directory, explain the rules and illustrate their application.
+- `skills/asd-ste100-skill/SKILL.md` owns triggers, routing, mode selection, and the rewrite workflow/output contract. Its frontmatter name is `asd-ste100`.
+- `references/writing-rules.md`, within that skill directory, is the authoritative writing, fidelity, and verification policy.
+- `references/review-workflow.md` owns review and supplied-fixes execution and the report contract.
+- `examples/before-after.md` contains worked demonstrations and case-specific explanations, not general instructions.
 - `scripts/ste-lint.py`, within that directory, contains the linter, CLI, and embedded regression tests. It uses only the Python standard library.
 - `apm.yml` declares APM dependencies for Copilot and Claude. APM manages the local `.agents/`, `.claude/`, and generated assistant files. Change dependency declarations rather than installed copies.
 
@@ -44,7 +46,7 @@ Check the skill document with the baseline documented in `README.md`:
 python3 skills/asd-ste100-skill/scripts/ste-lint.py --baseline 40 skills/asd-ste100-skill/SKILL.md
 ```
 
-The skill document quotes invalid patterns. Interpret those findings in context.
+The policy reference and worked examples quote patterns they discuss. Interpret findings in context.
 `examples/linter-edge-cases.md` is intentionally invalid. The following command must exit 1 with exactly two `dangling-conjunction` findings:
 
 ```bash
@@ -53,14 +55,12 @@ python3 skills/asd-ste100-skill/scripts/ste-lint.py --json skills/asd-ste100-ski
 
 # Skill conventions
 
-Read `SKILL.md` before changing rewrite behavior. Read the rule reference when changing rule interpretation.
+Read `SKILL.md` and `references/writing-rules.md` before changing skill behavior. Read `references/review-workflow.md` when changing a review branch or its report contract.
 Keep `README.md`, the skill, examples, and linter behavior consistent when a change affects their shared claims.
 
-- Strict mode covers procedures, error messages, tool descriptions, and inter-agent instructions. STE-flavored mode covers explanatory prose and treats lexical rules as advisory.
-- Preserve facts, conditions, scope, and modality when rewriting. Keep necessary precision even when it exceeds a length cap.
-- Default skill output is the rewritten text alone. A deliberate exception permits a single `Kept as-is:` line.
-- When the caller requests reasoning, use the rule table and mode/count format defined in `SKILL.md`.
-- Summarize rule categories with citations. Do not reproduce ASD's official dictionary or claim certified compliance.
+- Give each skill file one responsibility. Define each general language, fidelity, or verification policy once in `references/writing-rules.md`.
+- Workflows and examples may link to or apply a policy, but must not redefine it. Keep case-specific explanations beside their examples.
+- Keep task-specific steps and output contracts in their owning workflow document.
 
 # Linter conventions
 

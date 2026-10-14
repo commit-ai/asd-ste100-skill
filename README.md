@@ -21,11 +21,13 @@ The tool example retains the source's ambiguous "otherwise". The author must cla
 
 These are provisional clarity rewrites, not verified Issue 9-compliant text. The error example retains a compound form and an `-ing` verb under this skill's fidelity policy. Neither that policy nor the local Strict/STE-flavored modes are exceptions or conformance levels defined by ASD-STE100.
 
-More illustrative rule applications, evidence, and unresolved verification checks are in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md). The [bundled rule reference](skills/asd-ste100-skill/references/writing-rules.md) contains selected verified vocabulary restrictions, grammatical guidance, and application limits. For example, `check` is approved as a noun, not a verb. These checks can be applied locally; full validation still requires the standard, its dictionary, and applicable documented technical terminology.
+More worked rule applications, case-specific explanations, and unresolved choices are in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md). They demonstrate the [writing policy](skills/asd-ste100-skill/references/writing-rules.md), rather than defining additional instructions.
 
 ## What This Skill Does
 
 The task router separates document review, fixes from supplied findings, and ordinary rewriting. Strict and STE-flavored remain writing policies, not task types.
+
+Each skill file has one responsibility. [`SKILL.md`](skills/asd-ste100-skill/SKILL.md) owns routing, mode selection, and the rewrite workflow/output contract. [`references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md) is the authoritative owner of language rules, shared fidelity constraints, evidence limits, and verification guidance; every task branch loads it before applying rules. [`references/review-workflow.md`](skills/asd-ste100-skill/references/review-workflow.md) owns the review and supplied-fixes workflows and report contract. The examples contain demonstrations and links to those owners.
 
 For rewriting, the skill:
 
@@ -56,15 +58,13 @@ The linter checks structural patterns only. It does not compare an original text
 
 The deterministic linter checks semicolons, a short list of soft phrasal verbs (spin up, reach out, dive into, kick off, circle back, touch base), nominalizations, marketing adjectives, passive voice, present-perfect forms (including irregular participles such as "has run"), long sentences, synonym rotation, and dangling conjunctions in supported list items. It does not check noun-cluster length (that needs part-of-speech tagging) and it does not know phrasal verbs outside its list, so "take off the panel" passes. It never flags hedges or modality.
 
-The repo's own prose does not lint clean: the rule tables quote the patterns they forbid, and some sentences run long. Lint it with `python skills/asd-ste100-skill/scripts/ste-lint.py --baseline 40 skills/asd-ste100-skill/SKILL.md` and read the findings as examples, not defects.
+The policy reference and worked examples quote patterns they discuss, and some repository prose runs long. The documented baseline command for the entry point remains `python skills/asd-ste100-skill/scripts/ste-lint.py --baseline 40 skills/asd-ste100-skill/SKILL.md`. Read findings in context rather than treating every match as a defect.
 
 The dangling-conjunction rule checks list markers at the start of a line with zero to three leading spaces and ASCII spaces after the marker. It supports unordered markers `-`, `*`, and `+`, and ordered numeric markers that end in `.` or `)`, such as `1.` or `1)`. It checks indented continuation lines up to the final meaningful line. It does not parse list syntax inside blockquotes, lazy continuation, or full nested-list semantics. A standalone line with four or more leading spaces is not treated as a list marker. Within an active list item, indentation at the computed content column is treated as continuation text. Fence detection follows the linter's existing simple rule: a stripped line beginning with three backticks or three tildes toggles the fence state.
 
 The intentionally invalid `skills/asd-ste100-skill/examples/linter-edge-cases.md` file demonstrates incomplete Markdown list items. Run `python skills/asd-ste100-skill/scripts/ste-lint.py skills/asd-ste100-skill/examples/linter-edge-cases.md` to confirm that the linter reports the two expected findings. The file is a test fixture and should not be used as compliant STE prose.
 
-It does **not** reproduce ASD's official ~900-word approved dictionary. The standard is free to obtain but not free to redistribute: Issue 9 permits reproduction only with ASD's written authority, or by eight listed categories of organisation that this project does not belong to. This skill applies the underlying *principle* (plainest available word, used the same way every time) rather than checking against a fixed word list. For certified STE-compliant documentation, use the real standard.
-
-Full rule summary and citations: [`skills/asd-ste100-skill/references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md).
+Dictionary scope and redistribution limits: [Source and Scope](skills/asd-ste100-skill/references/writing-rules.md#source-and-scope). Full rules, selected vocabulary evidence, verification guidance, and citations: [`skills/asd-ste100-skill/references/writing-rules.md`](skills/asd-ste100-skill/references/writing-rules.md).
 
 ## Installation
 
