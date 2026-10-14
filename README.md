@@ -1,6 +1,6 @@
 # ASD-STE100 Skill — Simplified Technical English for Agent Output
 
-A Claude Code skill that rewrites dense, ambiguous English into [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) (STE) — the controlled-language standard the aerospace and defense industry built so aircraft maintenance instructions cannot be misread.
+A Claude Code skill that reviews documents and rewrites dense, ambiguous English using the discipline of [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) (STE) — the controlled-language standard the aerospace and defense industry built so aircraft maintenance instructions cannot be misread.
 
 This skill repurposes that same discipline for a different reader: an **AI agent** parsing another agent's output, a tool description, an error message, or an inter-agent instruction, with no human in the loop to resolve ambiguity.
 
@@ -14,12 +14,20 @@ An LLM agent parsing another agent's output is in a strikingly similar position 
 
 | Before | After |
 |---|---|
-| "This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review." | "The tool tries to synchronize state across the configured backends. If it finds a conflict, it reads the configured strategy. If the strategy allows automatic resolution, the tool may resolve the conflict without a user. If the tool does not resolve the conflict, it reports the conflict for manual review." |
-| "An error may have occurred while processing your request due to a possible mismatch in the expected data format, which could be caused by an outdated client version." | "Your request may have failed. The cause may be a data format that does not match what the server expects. An outdated client can cause this mismatch. Check your client version." |
+| "This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review." | "The tool will try to synchronize state across the configured backends. If a conflict is detected, the tool may resolve it automatically. This possible resolution depends on the configured strategy. Otherwise, it will report the conflict for manual review." |
+| "An error may have occurred while processing your request due to a possible mismatch in the expected data format, which could be caused by an outdated client version." | "An error may have occurred while processing your request. A mismatch with the expected data format may be the cause. An outdated client version could cause this mismatch." |
 
-More examples, including illustrations of the official STE rules themselves, in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md).
+The tool example retains the source's ambiguous "otherwise". The author must clarify whether the fallback covers every unresolved conflict or only a strategy that excludes automatic resolution. The rewrite adds no strategy-reading operation.
+
+These are provisional clarity rewrites, not verified Issue 9-compliant text. The error example retains a compound form and an `-ing` verb under this skill's fidelity policy. Neither that policy nor the local Strict/STE-flavored modes are exceptions or conformance levels defined by ASD-STE100.
+
+More illustrative rule applications, evidence, and unresolved verification checks are in [`skills/asd-ste100-skill/examples/before-after.md`](skills/asd-ste100-skill/examples/before-after.md). The [bundled rule reference](skills/asd-ste100-skill/references/writing-rules.md) contains selected verified vocabulary restrictions, grammatical guidance, and application limits. For example, `check` is approved as a noun, not a verb. These checks can be applied locally; full validation still requires the standard, its dictionary, and applicable documented technical terminology.
 
 ## What This Skill Does
+
+The task router separates document review, fixes from supplied findings, and ordinary rewriting. Strict and STE-flavored remain writing policies, not task types.
+
+For rewriting, the skill:
 
 1. Picks a mode. **Strict** covers procedures, error messages, and tool descriptions. **STE-flavored** covers READMEs, PR descriptions, and explanatory prose. STE-flavored keeps the sentence discipline but not the fixed-vocabulary lockdown.
 2. Reads the input English text for meaning.
@@ -29,9 +37,22 @@ More examples, including illustrations of the official STE rules themselves, in 
 
 Ask for the reasoning ("show the diff", "which rules did it break") and it outputs a before/after table naming each rule instead.
 
-The structural rules it checks are mechanical — you can point at the word or punctuation mark that breaks each one. The rules that depend on ASD's dictionary are flagged as advisory rather than enforced, and the rules that need taste are left to you.
+Punctuation and word counts are observable checks. Idiomatic meaning, synonym equivalence, rule applicability, and faithful edits require contextual judgment. Lexical approval remains unverified without authoritative dictionary evidence. STE-flavored treats lexical rules as advisory.
 
-The linter checks structural patterns only. It does not compare an original text with a rewrite, verify that requirement strength stayed the same, or prove that the rewrite preserved meaning. A zero-violation result means that the configured structural checks found no problems.
+For document review, the skill reads all available content, including headings, questions, options, examples, and table text. It uses an internal section checklist and publishes actionable findings only:
+
+| Location | Source expression | Status | Reason / basis | Suggested edit or author decision |
+|---|---|---|---|---|
+
+**Confirmed** identifies an observable rule conflict or a lexical conflict backed by a verified bundled restriction or authoritative entry. **Borderline** marks each concern whose meaning, applicability, or lexical status remains uncertain. Each borderline row explains that uncertainty and gives a conditional edit or specific author decision. Status indicates certainty, not severity.
+
+The review preserves meaning, selection counts, examples, approval conditions, and requirement strength. It distinguishes documented applicable requirements from actual practice. It states the dictionary limitation once and does not list acceptable text as findings. If source content is incomplete, it states the coverage limitation.
+
+For suggested fixes, supplied findings define the scope. The skill preserves their statuses and assumptions, verifies quotations and locations, and explicitly corrects proven location errors without starting a new audit. It saves only requested artifacts and identifies saved outputs by exact absolute path.
+
+Each invocation ends with one result after a bounded fidelity check. The skill does not recursively invoke itself, optimize reports to a score, or start automatic follow-up reviews. Further iteration belongs to the user's AI tool. Full branch instructions: [`skills/asd-ste100-skill/references/review-workflow.md`](skills/asd-ste100-skill/references/review-workflow.md).
+
+The linter checks structural patterns only. It does not compare an original text with a rewrite, verify that requirement strength stayed the same, or prove that the rewrite preserved meaning. A zero-violation result means that the configured structural checks found no problems, not that a document review is complete. A heuristic finding is a candidate, not proof. For example, noun `checks` and verb `verify` need not name the same action.
 
 The deterministic linter checks semicolons, a short list of soft phrasal verbs (spin up, reach out, dive into, kick off, circle back, touch base), nominalizations, marketing adjectives, passive voice, present-perfect forms (including irregular participles such as "has run"), long sentences, synonym rotation, and dangling conjunctions in supported list items. It does not check noun-cluster length (that needs part-of-speech tagging) and it does not know phrasal verbs outside its list, so "take off the panel" passes. It never flags hedges or modality.
 
@@ -80,7 +101,16 @@ Apply ASD-STE100 to this instruction
 
 Or paste text and ask Claude to "disambiguate this" / "apply STE100 to this" / "reduce ambiguity in this output."
 
-You get the rewritten text back and nothing else. To see which rules were applied, add "show the diff" or "explain the changes" to the request.
+Rewrite requests return the rewritten text alone, except for the permitted `Kept as-is:` note described above. To see which rules were applied, add "show the diff" or "explain the changes" to the request.
+
+Request a review or fixes from existing findings explicitly:
+
+```text
+Review this document for ASD-STE100 compatibility
+Suggest fixes from these supplied findings without starting a new review
+```
+
+These requests use the review table rather than the default rewrite output. Reviews assess readable content, not input-format tooling or extraction validation.
 
 ## Scope
 

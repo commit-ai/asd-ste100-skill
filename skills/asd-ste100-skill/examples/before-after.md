@@ -1,92 +1,128 @@
 # Before / After Examples
 
-## Part 1 — Official STE Examples
+## Verification status
 
-These illustrate real ASD-STE100 rules, drawn from public secondary sources (see `references/writing-rules.md`). They are paraphrased illustrations of the rule, not quotes from the standard itself.
+These examples are not fully verified ASD-STE100 Issue 9 text. The [bundled rule reference](../references/writing-rules.md) contains the selected verified restrictions used below. It does not replace the complete standard or a word-by-word dictionary review. The full standard and a documented software terminology set were not available for this review.
 
-| Rule | Before | After | Why |
-|---|---|---|---|
-| One meaning per word | "Verify the system." / "Check the connections." / "Confirm receipt." | "Make sure the system is correct." (one approved term used consistently) | Three near-synonyms force the reader to guess whether they mean the same action. |
-| One part of speech per word | "Oil the valve." | "Apply oil to the valve." | If "oil" is approved only as a noun, using it as a verb breaks the one-word-one-role guarantee. |
-| Precise verb meaning | "Follow the safety instructions." | "Obey the safety instructions." | "Follow" can mean "come after" or "obey" — STE picks the unambiguous one. |
-| Simple tense only | "We have received the technical reports from HQ." | "We received the technical reports from HQ." | Present perfect adds a second parse ("received, and still relevant now?") that simple past avoids. |
-| Verb, not noun | "Perform an inspection of the filter." | "Inspect the filter." | The noun form hides the action and adds a filler verb that carries no meaning. |
-| No phrasal verbs | "Take off the access panel." | "Remove the access panel." | "Take off" also means "depart" and "deduct" — the two words together do not predict the meaning. |
+Part 1 illustrates individual rule categories, not whole-sentence approval. Parts 2 and 3 demonstrate this skill's fidelity and review policies. A retained departure or unresolved author decision is not an STE-compliant result. In particular, this skill's Strict and STE-flavored modes are local policies, not ASD conformance levels.
+
+## Part 1 — Illustrative Rule Applications
+
+These are illustrations, not official examples or quotations from the standard. The evidence column identifies known restrictions and remaining verification work. An approved word alone does not establish approval of every word or construction in a sentence.
+
+| Rule | Before | After | Why | Evidence / remaining check |
+|---|---|---|---|---|
+| Consistent approved wording | "Begin the test before installation. Start the test after installation." | "Start the test before installation. Start the test after installation." | Retain the action and both timings while using the selected synonym. | The [word-choice restrictions](../references/writing-rules.md#word-choice) select `start`, not `begin`. Other words in these sentences still require dictionary review. |
+| Approved part of speech | "Check the connection." | "Do a check of the connection." | Retain the check as an action, but use `check` as a noun. | The word-choice restrictions approve noun `check`, not verb `check`. This is not a reason to rename all distinct checking or verification actions. |
+| Approved sense, not just plain meaning | "Follow the safety instructions." | "Obey the safety instructions." | This assumes "follow" means "obey" here, rather than physically come after. | A secondary-source illustration of sense restriction, not a verified current dictionary entry. Verify both entries before claiming compliance. |
+| Simple tense where equivalent | "We have received the technical reports from HQ." | "We received the technical reports from HQ." | Use this only if a past event is all the source needs to report. If current relevance is essential, report the unresolved fidelity issue rather than claim this substitution is equivalent. | Apply the [verb-form guidance](../references/writing-rules.md#verb-forms). This skill's permission to retain a necessary compound form is a departure, not an exception granted by the standard. |
+| Verb, not noun | "Perform an inspection of the filter." | "Inspect the filter." | Make the action direct without adding another task. | This illustrates the skill's action-verb preference. Verify `inspect` and its intended meaning in the Issue 9 dictionary before calling the sentence STE-compliant. |
+| Direct wording for an idiomatic action | "Take off the access panel." | "Remove the access panel." | Here, both expressions describe removing the same panel. Multiple dictionary senses alone do not prove that this occurrence is ambiguous. | This is a contextual rewrite candidate. Verify the applicable rule and dictionary entries in Issue 9 before asserting full compliance. |
 
 ## Part 2 — Applied to Agent Output
 
-These are original examples built for this skill's actual use case: rewriting AI agent output so another agent, a translation layer, or a non-native reader can parse it without ambiguity. They are illustrations, not quotes from any real system.
+These are original examples built for this skill's actual use case: rewriting AI agent output for another agent, a translation layer, or a non-native reader. They are provisional clarity rewrites, not approved STE models. The source's meaning takes priority over inventing a compliant-looking replacement.
 
-Word counts below are whitespace-separated tokens (`text.split()`), punctuation not counted separately. A different tokenizer will produce a different number.
+Counts below use whitespace-separated tokens (`text.split()`), with punctuation not counted separately. They are sanity checks, not verified counts under the standard's counting rules. Short sentences alone do not establish compliance.
 
 ### Example A — Tool description
 
 **Before:**
 > This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review.
 
-**Violations flagged:**
-- Two instructions in one sentence (sync + resolve/surface).
-- Present perfect in the relative clauses ("have been configured", "has been set").
+**Concerns identified:**
+- Several actions and a fallback in one descriptive sentence, not two commands.
+- Compound forms in the relative clauses ("have been configured", "has been set") can become "configured" here.
 - 44 words, far over the 25-word descriptive cap.
 
-Note what is *not* flagged: "will attempt to" and "may resolve". Those are hedges, not violations. The tool is not promised to succeed, and the rewrite must not promise it either.
+**Fidelity constraints:** "Will attempt to" and "may resolve" limit the source's claims. The rewrite must not promise success. Preserving these qualifications does not establish that their verb forms or word choices are approved.
 
 **After:**
-> The tool tries to synchronize state across the configured backends. If it finds a conflict, it reads the configured strategy. If the strategy allows automatic resolution, the tool may resolve the conflict without a user. If the tool does not resolve the conflict, it reports the conflict for manual review.
+> The tool will try to synchronize state across the configured backends. If a conflict is detected, the tool may resolve it automatically. This possible resolution depends on the configured strategy. Otherwise, it will report the conflict for manual review.
 
-The last sentence branches on whether the conflict was resolved, not on what the strategy allows. That is what "or otherwise" meant in the original: the fallback covers a permitted resolution that still did not happen.
+The attempt and possible resolution remain uncertain. No strategy-reading operation is added. "Otherwise" retains an ambiguity from the source: does the fallback cover every unresolved conflict, or only a strategy that excludes automatic resolution? Ask the author to choose before making that condition explicit. This rewrite does not settle that policy question.
+
+**Not ready for strict-STE approval:** The fallback needs an author decision. Word senses, software technical terms, and permitted verb forms still need Issue 9 review. The passive detection clause does not supply an actor the source never identified. The [voice guidance](../references/writing-rules.md#voice) permits passive voice in descriptive text only when the actor is unknown.
 
 ### Example B — Error message
 
 **Before:**
 > An error may have occurred while processing your request due to a possible mismatch in the expected data format, which could be caused by an outdated client version.
 
-**Violations flagged:**
-- One sentence carrying three separate claims (an error occurred, a format mismatch, a client version).
+**Concerns identified:**
+- One sentence carrying three uncertain claims (a possible error, a possible format mismatch, a possible outdated-client cause).
 - 28 words, over the descriptive cap.
 
-Not flagged: "may have occurred" and "could be caused by". The message is written by a system that does not know what went wrong. Both hedges are accurate reporting of that ignorance.
+**Fidelity constraints:** "May have occurred" and "could be caused by" preserve the source's uncertainty. Do not remove that uncertainty merely to satisfy a tense preference. This does not make those constructions STE-approved.
 
 **After:**
-> Your request may have failed. The cause may be a data format that does not match what the server expects. An outdated client can cause this mismatch. Check your client version.
+> An error may have occurred while processing your request. A mismatch with the expected data format may be the cause. An outdated client version could cause this mismatch.
 
-**This example is the reason the modality rule exists.** An earlier version of this file rewrote the first sentence as "The request failed", and the third as "an outdated client **is the most common cause**". Both read better. Both are wrong: the first asserts a failure the system only suspects, and the second invents a frequency claim that appears nowhere in the input. A rewrite that supplies a cause, a frequency, or a mechanism has stopped being a rewrite.
+An error is not necessarily a failed request. The rewrite preserves the processing context and both uncertain causal links. It adds no server, frequency claim, or troubleshooting instruction. A rewrite that supplies a cause, frequency, or mechanism has stopped being a rewrite.
 
-Note also that "may have failed" keeps a compound verb form that the simple-tense rule would otherwise remove. **When the tense rule and the modality rule conflict, modality wins** — dropping the auxiliary here would delete the uncertainty along with the tense.
+**Retained departure:** "May have occurred" keeps a compound verb form under this skill's fidelity policy, not an exception established in ASD-STE100. "While processing" also remains an `-ing` verb construction. The [verb-form guidance](../references/writing-rules.md#verb-forms) generally excludes `-ing` verbs while permitting specified non-verb uses, such as technical nouns. This output needs further grammatical and dictionary work before strict-STE approval. Recasting it must preserve the uncertain past event and supply no new processing actor.
 
 ### Example C — Inter-agent instruction
 
 **Before:**
 > Once the upstream job has completed and assuming no errors were raised, the downstream agent should proceed to consume the output artifact, though it is worth noting that partial artifacts are sometimes produced under timeout conditions.
 
-**Violations flagged:**
-- Present perfect ("has completed") and subordinate-clause stacking ("assuming...", "though it is worth noting...").
+**Concerns identified:**
+- Subordinate-clause stacking ("assuming...", "though it is worth noting...").
+- Present perfect ("has completed") and passive clauses require grammatical review. Preserve the completion condition when changing the tense.
 - One sentence, three separate facts (completion condition, next action, edge-case warning).
 - 36 words, over the 20-word instruction cap.
 
 **After:**
-> Wait for the upstream job to finish with no errors. Then read the output artifact. Warning: a timeout can produce a partial artifact. Check that the artifact is complete before you use it.
+> After the upstream job completes, if no errors were raised, the downstream agent should consume the output artifact. Partial artifacts are sometimes produced under timeout conditions.
 
-Two deliberate calls worth stating rather than hiding:
-- "should proceed to consume" became the imperative "read". STE permits this for instructions, where a recommendation addressed to the executing agent is a command. Do not make the same move in descriptive text.
-- The final sentence is **new**. The original warned about partial artifacts without saying what to do about it. Adding the check makes the warning actionable, but it is added content, so it is called out here rather than passed off as a rewrite. If the source's silence was deliberate, drop the sentence.
+The recommendation remains `should`, not a mandatory command. Both prerequisites now precede the downstream action, consistent with the [work-step condition guidance](../references/writing-rules.md#sentence-structure). "After ... completes" retains the completion prerequisite without present perfect. The occasional partial-artifact warning remains descriptive. No waiting or completeness-checking instruction is added.
+
+**Not ready for strict-STE approval:** A recommendation about an agent is not an imperative procedure. The output retains passive clauses and `should`; these need review against the applicable procedural/descriptive rules and dictionary. If a compliant rewrite requires an error-reporting or artifact-producing actor, ask the author rather than invent one. Software terms also need documented terminology evidence.
 
 ### Example D — README prose (STE-flavored mode)
 
 **Before:**
 > Our caching layer is designed to slot seamlessly into your existing stack with minimal friction and no vendor lock-in; it leverages semantic similarity to dramatically reduce the cache misses that traditionally plague LLM workloads.
 
-**Violations flagged:**
+**Concerns identified:**
 - Marketing adjectives and claims without measurement ("seamlessly", "minimal friction", "dramatically").
 - Semicolon joining two separate ideas.
-- Nominalization and soft phrasing ("is designed to slot into", "leverages").
+- Idiomatic and soft phrasing ("slot ... into", "leverages"). The design status itself is meaningful, not disposable framing.
 - 34 words, over the 25-word descriptive cap.
 
 **After:**
-> A normal cache matches requests by exact text, so a small change in wording causes a cache miss. This cache compares the meaning of a new prompt against the prompts it already holds. It runs alongside your current stack and stores no data outside it.
+> Our caching layer is designed to integrate easily with your existing stack without vendor lock-in. It uses semantic similarity with the aim of greatly reducing the cache misses that LLM workloads traditionally experience.
 
-Flavored mode kept the explanatory rhythm and did not force one fixed term per concept. It still cut the marketing adjectives, the semicolon, and the length.
+The rewrite preserves design intent, semantic similarity, and the lock-in claim. It adds no exact-text cache comparison, runtime integration guarantee, or data-location claim.
+
+**Unresolved author decision:** "Easily", "greatly", and "traditionally" retain the source's unmeasured benefit claims. Ask for the effort criterion and evidence for the reduction and recurring misses. Replace these claims with supplied evidence, or obtain permission to remove them. This is a faithful provisional rewrite, not a claim that those concerns are resolved.
+
+**Not ready for strict-STE approval:** STE-flavored is a local adaptation. Figurative uses such as workloads that "experience" misses, verb forms, word senses, and technical terms still need review. A shorter marketing claim is neither verified evidence nor proof of STE compliance.
+
+## Part 3 — Contextual Review Examples
+
+These pairs illustrate review judgments, not a phrase blacklist. Use the [review workflow](../references/review-workflow.md) for the report contract. Neither their proposed edits nor all their words have been approved against the Issue 9 dictionary.
+
+### Literal versus idiomatic use
+
+"Go to the next page." describes literal navigation and needs no edit on idiom grounds.
+
+"People other staff go to for technical help." describes help-seeking. Direct wording may be clearer, but the lexical concern is not a proven dictionary violation.
+
+### Borderline versus confirmed findings
+
+| Location | Source expression | Status | Reason / basis | Suggested edit or author decision |
+|---|---|---|---|---|
+| Part 3, Literal versus idiomatic use | "People other staff go to for technical help." | Borderline | "Go to" describes help-seeking here. Whether a lexical change is required remains unverified. | If help-seeking is intended: "People whom other staff ask for technical help." |
+| Example D, Before | "no vendor lock-in; it leverages semantic similarity" | Confirmed | The semicolon conflicts with the punctuation rule (Rule 8.1). This does not prove the benefit claims. | Split the clauses into sentences while preserving the design and semantic-similarity claims, as in the provisional rewrite. |
 
 ## How to Read These Examples
 
-Part 1 shows the actual rules this skill is built on. Part 2 shows the transfer: the same discipline — one meaning per word, active voice, simple tense, one instruction per sentence, explicit conditions instead of buried subordinate clauses — makes machine-to-machine and cross-language text safer to parse, not just aircraft manuals.
+Part 1 illustrates rule categories with context-dependent lexical choices. Part 2 applies the discipline to agent output while preserving meaning. Part 3 separates supported findings from unresolved contextual concerns. Deterministic checks can identify punctuation and length patterns, but they cannot prove semantic equivalence, lexical approval, or complete review coverage.
+
+## Completing strict-STE verification
+
+Use the [official Issue 9 request route](https://www.asd-ste100.org/STE_downloads.html#article02-2l) to obtain the standard. Check each proposed sentence against the full writing rules and each general word against its permitted meaning and part of speech. Check technical nouns and verbs against applicable documented terminology, rather than declaring arbitrary words technical to bypass the dictionary.
+
+Resolve the author decisions above, apply the standard's word-counting rules, and have an STE-competent editor review grammar, technical meaning, and source fidelity together. [STEMG training guidance](https://www.asd-ste100.org/STE_training.html) identifies the standard as the indispensable reference. [STE support teams](https://www.asd-ste100.org/STEWorkingGroups.html) and [STEMG trainers](https://www.asd-ste100.org/STEtrainers.html) are legitimate consultation routes. Until those checks are complete, keep the outputs provisional.
