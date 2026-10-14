@@ -144,9 +144,11 @@ STE was designed to eliminate ambiguity for a reader who cannot ask a follow-up 
 
 - [ASD-STE100 official site](https://www.asd-ste100.org/)
 - [ASD-STE100 — About STE](https://www.asd-ste100.org/about_STE.html)
+- [STEMG FAQ — meanings, parts of speech, conditions, voice, and terminology](https://www.asd-ste100.org/STE_faq.html)
 - [STEMG training guidance — why the standard remains necessary](https://www.asd-ste100.org/STE_training.html)
 - [Official Issue 9 request route](https://www.asd-ste100.org/STE_downloads.html#article02-2l)
 - [ASD Europe — Simplified Technical English](https://www.asd-europe.org/standards-specifications/simplified-technical-english/)
 - [Simplified Technical English — Wikipedia](https://en.wikipedia.org/wiki/Simplified_Technical_English)
 - [TechScribe — ASD-STE100 Simplified Technical English](https://www.techscribe.co.uk/techw/asd-simplified-technical-english.htm)
 - [SKYbrary — Simplified Technical English (STE)](https://skybrary.aero/articles/simplified-technical-english-ste)
+
