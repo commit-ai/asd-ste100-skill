@@ -1,8 +1,8 @@
 # ASD-STE100 Skill — Simplified Technical English for Agent Output
 
-A Claude Code skill that reviews documents and rewrites dense, ambiguous English using the discipline of [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) (STE) — the controlled-language standard the aerospace and defense industry built so aircraft maintenance instructions cannot be misread.
+A Claude Code skill that rewrites instructions and operational technical text using the discipline of [ASD-STE100 Simplified Technical English](https://www.asd-ste100.org/) (STE) — the controlled-language standard the aerospace and defense industry built so aircraft maintenance instructions cannot be misread. It also reviews documents and rewrites other prose when explicitly asked to apply STE.
 
-This skill repurposes that same discipline for a different reader: an **AI agent** parsing another agent's output, a tool description, an error message, or an inter-agent instruction, with no human in the loop to resolve ambiguity.
+This skill repurposes that same discipline for a different reader: an **AI agent** parsing a tool contract, an error message, or an inter-agent instruction, with no human in the loop to resolve operational ambiguity. Ordinary conversation and requests for clearer explanations do not trigger it.
 
 ## Why STE, and Why for Agents
 
@@ -25,13 +25,13 @@ More worked rule applications, case-specific explanations, and unresolved choice
 
 ## What This Skill Does
 
-The task router separates document review, fixes from supplied findings, and ordinary rewriting. Strict and STE-flavored remain writing policies, not task types.
+The task router checks scope before selecting document review, fixes from supplied findings, or rewriting. Strict and STE-flavored remain writing policies, not task types; selecting a mode does not expand the trigger scope.
 
 Each skill file has one responsibility. [`SKILL.md`](skills/asd-ste100/SKILL.md) owns routing, mode selection, and the rewrite workflow/output contract. [`references/writing-rules.md`](skills/asd-ste100/references/writing-rules.md) is the authoritative owner of language rules, shared fidelity constraints, evidence limits, and verification guidance; every task branch loads it before applying rules. [`references/review-workflow.md`](skills/asd-ste100/references/review-workflow.md) owns the review and supplied-fixes workflows and report contract. The examples contain demonstrations and links to those owners.
 
 For rewriting, the skill:
 
-1. Picks a mode. **Strict** covers procedures, error messages, and tool descriptions. **STE-flavored** covers READMEs, PR descriptions, and explanatory prose. STE-flavored keeps the sentence discipline but not the fixed-vocabulary lockdown.
+1. Picks a mode after the scope check. **Strict** covers procedures, error messages, and tool descriptions. **STE-flavored** covers other prose only under an explicit STE request. It keeps the sentence discipline but not the fixed-vocabulary lockdown.
 2. Reads the input English text for meaning.
 3. Flags every rule violation sentence-by-sentence: ambiguous word choice, present-perfect/complex tense, passive voice with an unclear actor, multi-instruction sentences, oversized noun clusters, dropped words, sentences over length, phrasal verbs, nominalized actions, semicolons, hedge stacks, and marketing adjectives.
 4. Rewrites each flagged sentence — without dropping any fact, condition, or scope qualifier from the original. If a shorter phrasing would lose required precision, it keeps the longer phrasing and flags the trade-off instead of silently simplifying.
@@ -91,7 +91,7 @@ This clones the repo and links the skill folder into `~/.claude/skills/`, making
 
 ## Usage
 
-Trigger with a request to simplify or clarify English text:
+Use automatically for rewriting instructions and operational technical text:
 
 ```
 Disambiguate this tool description
@@ -99,7 +99,7 @@ Rewrite this error message so an agent can't misparse it
 Apply ASD-STE100 to this instruction
 ```
 
-Or paste text and ask Claude to "disambiguate this" / "apply STE100 to this" / "reduce ambiguity in this output."
+For other text, explicitly request STE, for example: "Apply STE100 to this README explanation." Generic requests such as "clarify this" or "make this more concise" do not trigger the skill on their own.
 
 Rewrite requests return the rewritten text alone, except for the permitted `Kept as-is:` note described above. To see which rules were applied, add "show the diff" or "explain the changes" to the request.
 
@@ -114,9 +114,11 @@ These requests use the review table rather than the default rewrite output. Revi
 
 ## Scope
 
-Built for: agent-to-agent messages, tool/function descriptions, error messages, system prompts, inter-agent instructions — any English text a machine or non-native reader has to parse without a human to ask.
+Automatic use covers instructions and operational technical text: procedures, tool/function contracts, error messages, and agent instructions that define actions, conditions, constraints, or failure behavior. The text's function determines scope, not its file type or audience.
 
-Not built for: creative writing, marketing copy, or anything where voice and nuance are the point — STE is deliberately flat and literal by design.
+Other prose requires an explicit STE request. For example, "The open questions you wrote aren't clear to me. Explain them here more clearly (and also more directly and concisely, if possible)" calls for an ordinary explanation, not this skill. A technical subject or an agent reader alone does not change that boundary.
+
+STE is deliberately flat and literal, so it is not a default style for creative writing, marketing, persuasion, or nuanced discussion.
 
 One limit worth stating up front: this fixes the form of a text, not its substance. A paragraph with nothing to say comes out short, clean, and still empty.
 

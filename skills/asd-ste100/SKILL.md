@@ -1,6 +1,6 @@
 ---
 name: asd-ste100
-description: "Review documents for ASD-STE100 compatibility, suggest fixes from supplied findings, or rewrite English that is dense or easy to misparse. Use for tool descriptions, error messages, inter-agent instructions, system prompts, and status reports where misreading has a real cost. Triggers: STE100 review, disambiguate, apply Simplified Technical English, plain-language rewrite, controlled-language rewrite, rewrite so an agent cannot misread this. Not for creative or marketing copy, or persuasive copy where voice, nuance, or persuasion is the point."
+description: "Use to rewrite instructions and operational technical text: procedures, tool/function contracts, error messages, and agent instructions. These define actions, conditions, constraints, or failure behavior. Also use for explicit ASD-STE100 or Simplified Technical English requests, including document reviews and fixes from supplied STE findings. For other text, require an explicit STE request. Requests to clarify, explain, rephrase, or shorten open questions, discussion, or general prose do not trigger this skill on their own."
 metadata:
   version: "0.4.0"
 ---
@@ -8,6 +8,8 @@ metadata:
 # Simplified Technical English (ASD-STE100)
 
 ## Task Routing
+
+Check scope first. Automatic use requires instructions or operational technical text as defined in the description. Judge the text's function, not its file type or audience. A README can contain a procedure. A message to an agent can be ordinary discussion. For other text, proceed only when the user explicitly requests STE or names this skill. Otherwise, handle the request normally, without applying this skill's rules or output contract.
 
 Before assessing or rewriting text, read [references/writing-rules.md](references/writing-rules.md). It owns the language rules, mode-dependent enforcement, source fidelity, and verification policy for every branch.
 
@@ -17,10 +19,10 @@ Before assessing or rewriting text, read [references/writing-rules.md](reference
 
 ## Mode Selection
 
-Use the user's mode choice when supplied. Otherwise, infer it from the text type:
+After the scope check, use the user's mode choice when supplied. Otherwise, infer it from the text type:
 
-- **Strict:** procedures, error messages, tool and function descriptions, inter-agent instructions, and safety text. Use it wherever a wrong reading has a cost.
-- **STE-flavored:** READMEs, PR descriptions, changelogs, and explanatory prose.
+- **Strict:** procedures, error messages, tool and function descriptions, inter-agent instructions, and safety text.
+- **STE-flavored:** other prose admitted by an explicit STE request, such as README explanations, PR descriptions, and changelogs.
 
 ## Process
 

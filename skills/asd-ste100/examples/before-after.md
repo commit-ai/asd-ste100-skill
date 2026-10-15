@@ -82,6 +82,8 @@ The recommendation remains `should`, not a mandatory command. Both prerequisites
 
 ### Example D — README prose (STE-flavored mode)
 
+**Request:** "Apply ASD-STE100 to this README paragraph." This explicit request admits the explanatory prose; a generic request to make it clearer would not.
+
 **Before:**
 > Our caching layer is designed to slot seamlessly into your existing stack with minimal friction and no vendor lock-in; it leverages semantic similarity to dramatically reduce the cache misses that traditionally plague LLM workloads.
 
